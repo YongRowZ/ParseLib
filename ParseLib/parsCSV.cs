@@ -22,7 +22,7 @@ namespace ParseLib
         ///                              false -> если первая строка сразу с значениями
         /// </param>
         /// <returns></returns>
-        public DataTable getDataTable
+        public DataTable getDataTableCSV
             (string filePatch,
                 string delimiter,
                 bool titleFirstRow)
