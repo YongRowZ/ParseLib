@@ -24,9 +24,9 @@ namespace ParseLib
         /// </param>
         /// <returns></returns>
         public DataTable getDataTableCSV
-            (string filePatch,
+            (   string filePatch,
                 string delimiter,
-                bool titleFirstRow)
+                bool titleFirstRow  )
         {
             using (StreamReader reader = new StreamReader(filePatch, Encoding.Default))
             {
@@ -73,6 +73,51 @@ namespace ParseLib
             }
 
             return dataTable;
+        }
+
+        /// <summary>
+        /// Полученную DataTable сохраняет в формате .csv
+        /// </summary>
+        /// <param name="filePatch"> Путь по которому будет выполнено сохранение, файла типа .csv </param>
+        /// <param name="delimiter"> Разделитель используемый между значениями </param>
+        /// <param name="titleFirstRow"> Флаг указывающий необходимо ли загаловки столбцов сохронять в первую строку:
+        ///                                 true -> ДА;
+        ///                                 false -> НЕТ;
+        /// </param>
+        public async void save_CSVfromDataTable
+            (   string filePatch,
+                string delimiter,
+                bool titleFirstRow,
+                DataTable dataTable )
+        {
+            using (StreamWriter writer = new StreamWriter(filePatch, false, Encoding.Default))
+            {
+                if (titleFirstRow == true)
+                {
+                    string line = string.Empty;
+
+                    for (int indexColumn = 0; indexColumn < dataTable.Columns.Count; indexColumn++)
+                    {
+                        line += dataTable.Columns[indexColumn].ToString() + delimiter;
+                    }
+
+                    await writer.WriteLineAsync
+                        (line.Substring(0, line.LastIndexOf(";")));
+                }
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    string line = string.Empty;
+
+                    for (int indexColumn = 0; indexColumn < dataTable.Columns.Count; indexColumn++)
+                    {
+                        line += row[indexColumn].ToString() + delimiter;
+                    }
+
+                    await writer.WriteLineAsync
+                        (line.Substring(0, line.LastIndexOf(";")));
+                }
+            }
         }
     }
 }
