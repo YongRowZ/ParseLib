@@ -23,7 +23,7 @@ namespace ParseLib
         ///                                 false -> НЕТ;
         /// </param>
         /// <returns></returns>
-        public DataTable getDataTableCSV
+        public DataTable get_DataTablefromCSV
             (   string filePatch,
                 string delimiter,
                 bool titleFirstRow  )
