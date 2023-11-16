@@ -14,12 +14,13 @@ namespace ParseLib
         private DataRow row;
 
         /// <summary>
-        /// Возращает DataTable для DataDridView
+        /// Возращает DataTable для DataDridView, полученную из файла типа .csv
         /// </summary>
         /// <param name="filePatch"> Путь к файлу типа .csv </param>
         /// <param name="delimiter"> Разделитель используемый между значениями </param>
-        /// <param name="titleFirstRow"> true -> если первая строка загаловки
-        ///                              false -> если первая строка сразу с значениями
+        /// <param name="titleFirstRow"> Флаг указывающий является ли первая строка загаловками столбцов:
+        ///                                 true -> ДА;
+        ///                                 false -> НЕТ;
         /// </param>
         /// <returns></returns>
         public DataTable getDataTableCSV
