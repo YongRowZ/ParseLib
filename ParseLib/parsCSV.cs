@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace ParseLib
 {
-    public class parsCSV
-    {
-        private DataTable dataTable = new DataTable();
-        private DataRow row;
-
+    public static class parsCSV
+    {       
         /// <summary>
         /// Возращает DataTable для DataDridView, полученную из файла типа .csv
         /// </summary>
@@ -23,11 +20,15 @@ namespace ParseLib
         ///                                 false -> НЕТ;
         /// </param>
         /// <returns></returns>
-        public DataTable get_DataTablefromCSV
+        public static DataTable get_DataTablefromCSV
             (   string filePatch,
                 string delimiter,
-                bool titleFirstRow  )
+                bool titleFirstRow = true  
+            )
         {
+            DataTable dataTable = new DataTable();
+            DataRow row;
+
             using (StreamReader reader = new StreamReader(filePatch, Encoding.Default))
             {
                 string line;
@@ -84,11 +85,12 @@ namespace ParseLib
         ///                                 true -> ДА;
         ///                                 false -> НЕТ;
         /// </param>
-        public async void save_CSVfromDataTable
+        public static async void save_CSVfromDataTable
             (   string filePatch,
                 string delimiter,
-                bool titleFirstRow,
-                DataTable dataTable )
+                DataTable dataTable,
+                bool titleFirstRow = true
+            )
         {
             using (StreamWriter writer = new StreamWriter(filePatch, false, Encoding.Default))
             {
