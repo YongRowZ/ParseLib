@@ -8,23 +8,18 @@ using System.Threading.Tasks;
 
 namespace ParseLib
 {
-    public static class parsCSV
-    {       
-        /// <summary>
-        /// Возращает DataTable для DataDridView, полученную из файла типа .csv
-        /// </summary>
-        /// <param name="filePatch"> Путь к файлу типа .csv </param>
-        /// <param name="delimiter"> Разделитель используемый между значениями </param>
-        /// <param name="titleFirstRow"> Флаг указывающий является ли первая строка загаловками столбцов:
-        ///                                 true -> ДА;
-        ///                                 false -> НЕТ;
-        /// </param>
-        /// <returns></returns>
-        public static DataTable get_DataTablefromCSV
-            (   string filePatch,
-                string delimiter,
-                bool titleFirstRow = true  
-            )
+    public class parsCSV
+    {
+        private static bool FileExist(string filePatch) 
+        {
+            if (System.IO.File.Exists(filePatch)) 
+                return true;
+
+            return false;
+        } 
+
+        private static DataTable CreateDataTable
+            ( string filePatch, Delimiter delimiter, bool titleFirstRow ) 
         {
             DataTable dataTable = new DataTable();
             DataRow row;
@@ -37,7 +32,7 @@ namespace ParseLib
                 if (titleFirstRow == true)
                 {
                     data =
-                        reader.ReadLine().Split(delimiter.ToCharArray());
+                        reader.ReadLine().Split((char)delimiter);
 
                     foreach (string s in data)
                     {
@@ -47,7 +42,7 @@ namespace ParseLib
 
                 while ((line = reader.ReadLine()) != null)
                 {
-                    data = line.Split(delimiter.ToCharArray());
+                    data = line.Split((char)delimiter);
 
                     if (titleFirstRow == false)
                     {
@@ -77,17 +72,37 @@ namespace ParseLib
         }
 
         /// <summary>
+        /// Возращает DataTable для DataDridView, полученную из файла типа .csv
+        /// </summary>
+        /// <param name="filePatch"> Путь к файлу типа .csv </param>
+        /// <param name="delimiter"> Разделитель используемый между значениями </param>
+        /// <param name="titleFirstRow"> Флаг указывающий является ли первая строка загаловками столбцов:
+        ///                                 true -> ДА;
+        ///                                 false -> НЕТ;
+        /// </param>
+        public static DataTable Get_DataTablefromCSV
+            (string filePatch, Delimiter delimiter, bool titleFirstRow = true)
+        {
+            if (FileExist(filePatch) == true)
+                return CreateDataTable(filePatch, delimiter, titleFirstRow);
+
+            else
+                return default;
+        }
+
+        /// <summary>
         /// Полученную DataTable сохраняет в формате .csv
         /// </summary>
         /// <param name="filePatch"> Путь по которому будет выполнено сохранение, файла типа .csv </param>
         /// <param name="delimiter"> Разделитель используемый между значениями </param>
+        /// <param name="dataTable"> DataTable из которого будет выполнено сохранение </param>
         /// <param name="titleFirstRow"> Флаг указывающий необходимо ли загаловки столбцов сохронять в первую строку:
         ///                                 true -> ДА;
         ///                                 false -> НЕТ;
         /// </param>
-        public static async void save_CSVfromDataTable
+        public static async void Save_CSVfromDataTable
             (   string filePatch,
-                string delimiter,
+                Delimiter delimiter,
                 DataTable dataTable,
                 bool titleFirstRow = true
             )
@@ -100,11 +115,11 @@ namespace ParseLib
 
                     for (int indexColumn = 0; indexColumn < dataTable.Columns.Count; indexColumn++)
                     {
-                        line += dataTable.Columns[indexColumn].ToString() + delimiter;
+                        line += dataTable.Columns[indexColumn].ToString() + (char)delimiter;
                     }
 
                     await writer.WriteLineAsync
-                        (line.Substring(0, line.LastIndexOf(";")));
+                        (line.Substring(0, line.LastIndexOf((char)delimiter)));
                 }
 
                 foreach (DataRow row in dataTable.Rows)
@@ -113,11 +128,11 @@ namespace ParseLib
 
                     for (int indexColumn = 0; indexColumn < dataTable.Columns.Count; indexColumn++)
                     {
-                        line += row[indexColumn].ToString() + delimiter;
+                        line += row[indexColumn].ToString() + (char)delimiter;
                     }
 
                     await writer.WriteLineAsync
-                        (line.Substring(0, line.LastIndexOf(";")));
+                        (line.Substring(0, line.LastIndexOf((char)delimiter)));
                 }
             }
         }
