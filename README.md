@@ -9,7 +9,7 @@
  </thead>
  <tbody>
   <tr>
-   <td>(string filePatch,string delimiter,bool titleFirstRow = true)</td>
+   <td>(string filePatch,Delimiter delimiter,bool titleFirstRow = true)</td>
    <td>возврашает DataTable из файла типа .csv</td>
   </tr>
  <tbody>
@@ -18,7 +18,7 @@
   </thead>
  <tbody>
   <tr>
-   <td>(string filePatch,string delimiter,DataTable dataTable,bool titleFirstRow = true)</td>
+   <td>(string filePatch,Delimiter delimiter,DataTable dataTable,bool titleFirstRow = true)</td>
    <td>сохраняет файл типа .csv из DataTable</td>
   </tr>
  <tbody>
