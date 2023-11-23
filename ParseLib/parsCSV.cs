@@ -19,7 +19,7 @@ namespace ParseLib
         } 
 
         private static DataTable CreateDataTable
-            ( string filePatch, Delimiter delimiter, bool titleFirstRow ) 
+            (string filePatch, Delimiter delimiter, bool titleFirstRow) 
         {
             DataTable dataTable = new DataTable();
             DataRow row;
@@ -101,11 +101,7 @@ namespace ParseLib
         ///                                 false -> НЕТ;
         /// </param>
         public static async void Save_CSVfromDataTable
-            (   string filePatch,
-                Delimiter delimiter,
-                DataTable dataTable,
-                bool titleFirstRow = true
-            )
+            (string filePatch, Delimiter delimiter, DataTable dataTable, bool titleFirstRow = true)
         {
             using (StreamWriter writer = new StreamWriter(filePatch, false, Encoding.Default))
             {
