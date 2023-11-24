@@ -10,14 +10,6 @@ namespace ParseLib
 {
     public class parsCSV
     {
-        private static bool FileExist(string filePatch) 
-        {
-            if (System.IO.File.Exists(filePatch)) 
-                return true;
-
-            return false;
-        } 
-
         private static DataTable CreateDataTable
             (string filePatch, Delimiter delimiter, bool titleFirstRow) 
         {
@@ -72,7 +64,7 @@ namespace ParseLib
         }
 
         /// <summary>
-        /// Возращает DataTable для DataDridView, полученную из файла типа .csv
+        /// Возращает DataTable, полученную из файла типа .csv
         /// </summary>
         /// <param name="filePatch"> Путь к файлу типа .csv </param>
         /// <param name="delimiter"> Разделитель используемый между значениями </param>
@@ -83,15 +75,15 @@ namespace ParseLib
         public static DataTable Get_DataTablefromCSV
             (string filePatch, Delimiter delimiter, bool titleFirstRow = true)
         {
-            if (FileExist(filePatch) == true)
-                return CreateDataTable(filePatch, delimiter, titleFirstRow);
+            DataTable dataTable = new DataTable();
 
-            else
-                return default;
+            return 
+                File.Exists(filePatch) == false ? 
+                dataTable : CreateDataTable(filePatch, delimiter, titleFirstRow);
         }
 
         /// <summary>
-        /// Полученную DataTable сохраняет в формате .csv
+        /// Полученную DataTable, сохраняет в формате .csv
         /// </summary>
         /// <param name="filePatch"> Путь по которому будет выполнено сохранение, файла типа .csv </param>
         /// <param name="delimiter"> Разделитель используемый между значениями </param>
